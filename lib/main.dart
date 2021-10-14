@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'widgets/Log_in.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -11,17 +13,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        appBarTheme: const AppBarTheme(backgroundColor: Colors.black54),
-        backgroundColor: Colors.black54,
-        iconTheme: const IconThemeData().copyWith(color: Colors.white),
-      ),
       home: Scaffold(
         appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: () {},
-          ),
           title: const Text('Aguardians'),
           actions: [
             Padding(
@@ -33,7 +26,6 @@ class MyApp extends StatelessWidget {
                   color: Colors.white,
                   size: 20,
                 ),
-                iconSize: 24,
                 items: <String>['En'].map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
@@ -47,6 +39,34 @@ class MyApp extends StatelessWidget {
               ),
             ),
           ],
+        ),
+        drawer: Drawer(
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(10.0, 50.0, 10.0, 20.0),
+            children: [
+              ListTile(
+                title: const Text('Home'),
+                onTap: () {
+                  // Update the state of the app
+                  // ...
+                  // Then close the drawer
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text('Profile'),
+                onTap: () {
+                  // Update the state of the app
+                  // ...
+                  // Then close the drawer
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        ),
+        body: const Center(
+          child: LoginSection(),
         ),
       ),
     );
