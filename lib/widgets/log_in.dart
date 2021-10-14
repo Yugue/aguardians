@@ -8,7 +8,7 @@ class LoginSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      padding: const EdgeInsets.symmetric(horizontal: 30.0),
       child: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(vertical: 0),
         child: Column(
@@ -37,8 +37,26 @@ class LoginSection extends StatelessWidget {
                 ),
               ),
             ),
-            EmailInputForm(),
-            PasswordInputForm(),
+            const EmailInputForm(),
+            const PasswordInputForm(),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5.0),
+              child: TextButton(
+                onPressed: () {
+                  // TODO: add forgot your password based on the email address provided
+                },
+                child: const Text('Forgot your password?'),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                // Submit sign in to Firebase
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('Sign in', style: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.white)),
+              ),
+            ),
           ],
         ),
       ),
