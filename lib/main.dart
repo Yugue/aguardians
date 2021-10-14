@@ -65,9 +65,7 @@ class MyApp extends StatelessWidget {
             ],
           ),
         ),
-        body: const Center(
-          child: LoginSection(),
-        ),
+        body: const LoginSection(),
       ),
     );
   }

@@ -23,7 +23,7 @@ class LoginSection extends StatelessWidget {
               style: Theme.of(context).textTheme.subtitle1,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 50.0),
+              padding: const EdgeInsets.fromLTRB(0, 50, 0, 30),
               child: RichText(
                 text: TextSpan(
                   style: Theme.of(context).textTheme.subtitle1,
@@ -38,6 +38,7 @@ class LoginSection extends StatelessWidget {
               ),
             ),
             EmailInputForm(),
+            PasswordInputForm(),
           ],
         ),
       ),
@@ -61,6 +62,30 @@ class EmailInputForm extends StatelessWidget {
       },
       validator: (String? value) {
         return (EmailValidator.validate(value!)) ? null : 'Email format is incorrect!';
+      },
+    );
+  }
+}
+
+class PasswordInputForm extends StatelessWidget {
+  const PasswordInputForm({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    RegExp passwordRule = RegExp(r'/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/');
+    return TextFormField(
+      decoration: const InputDecoration(
+        icon: Icon(Icons.email),
+        labelText: 'Password',
+      ),
+      onSaved: (String? value) {
+        // This optional block of code can be used to run
+        // code when the user saves the form.
+      },
+      validator: (String? value) {
+        return (passwordRule.hasMatch(value!))
+            ? null
+            : 'Password must be minimum eight characters, at least one letter, one number and one special character!';
       },
     );
   }
