@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'widgets/Log_in.dart';
+import 'widgets/login_signup/Log_in.dart';
 
 void main() {
   runApp(const MyApp());
@@ -44,6 +44,21 @@ class MyApp extends StatelessWidget {
           child: ListView(
             padding: const EdgeInsets.fromLTRB(10.0, 50.0, 10.0, 20.0),
             children: [
+              const SizedBox(
+                height: 70.0,
+                child: DrawerHeader(
+                  padding: EdgeInsets.fromLTRB(16.0, 0, 16.0, 0),
+                  margin: EdgeInsets.all(0.0),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                  child: Text('Drawer Header'),
+                ),
+              ),
               ListTile(
                 title: const Text('Home'),
                 onTap: () {
@@ -65,7 +80,10 @@ class MyApp extends StatelessWidget {
             ],
           ),
         ),
-        body: const LoginSection(),
+        body: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
+          child: LoginSection(),
+        ),
       ),
     );
   }
