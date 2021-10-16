@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Widget that displays Aguardians and the main message.
 class TitleWithMessage extends StatelessWidget {
   const TitleWithMessage({Key? key}) : super(key: key);
 
