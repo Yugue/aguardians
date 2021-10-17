@@ -1,6 +1,7 @@
 import 'package:aguardians/logic/regex/input_validator_regex.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'input_forms.dart';
 
@@ -13,6 +14,20 @@ class SignupUser extends StatefulWidget {
 
 class _SignupUserState extends State<SignupUser> {
   DateTime? selectedDate;
+  late String? _userEmail;
+  late String? _userPassword;
+
+  void userEmailSetter(String? email) {
+    setState(() {
+      _userEmail = email;
+    });
+  }
+
+  void userPasswordSetter(String? password) {
+    setState(() {
+      _userPassword = password;
+    });
+  }
 
   Future<void> _selectDateOfBirth(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -29,8 +44,17 @@ class _SignupUserState extends State<SignupUser> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        const EmailInputForm(),
-        CustomInputForm(labelText: 'Password', validatorRule: passwordRule, errorMsg: passwordErrorMsg),
+        CustomInputForm(
+          labelText: 'Email',
+          errorMsg: 'Email format is incorrect!',
+          stateModifier: userEmailSetter,
+        ),
+        CustomInputForm(
+          labelText: 'Password',
+          validatorRule: passwordRule,
+          errorMsg: passwordErrorMsg,
+          stateModifier: userPasswordSetter,
+        ),
         CustomInputForm(labelText: 'Re-Password', validatorRule: passwordRule, errorMsg: passwordErrorMsg),
         CustomInputForm(labelText: 'Name', validatorRule: nameRule, errorMsg: nameErrorMsg),
         const SizedBox(
@@ -55,7 +79,25 @@ class _SignupUserState extends State<SignupUser> {
         OutlinedButton(onPressed: () {}, child: const Text('Add a Profile Picture')),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 20.0),
-          child: ElevatedButton(onPressed: () {}, child: const Text('Register')),
+          child: ElevatedButton(
+            onPressed: () async {
+              try {
+                UserCredential userCredential = await FirebaseAuth.instance
+                    .createUserWithEmailAndPassword(email: _userEmail!, password: _userPassword!);
+                print('account registered successfully');
+                print(userCredential);
+              } on FirebaseAuthException catch (e) {
+                if (e.code == 'weak-password') {
+                  print('The password provided is too weak.');
+                } else if (e.code == 'email-already-in-use') {
+                  print('The account already exists for that email.');
+                }
+              } catch (e) {
+                print(e);
+              }
+            },
+            child: const Text('Register'),
+          ),
         ),
       ],
     );

@@ -39,7 +39,7 @@ class LoginSection extends StatelessWidget {
               ),
             ),
           ),
-          const EmailInputForm(),
+          const CustomInputForm(labelText: 'Email', errorMsg: 'Email format is incorrect!'),
           CustomInputForm(labelText: 'Password', validatorRule: passwordRule, errorMsg: passwordErrorMsg),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 5.0),

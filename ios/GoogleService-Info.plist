@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>760414248025-dis6gip23mfjd5iart676bqhpg24m9qv.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.760414248025-dis6gip23mfjd5iart676bqhpg24m9qv</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>760414248025-8pk0au8bfu9i93k86u34mfkg8aqrebk1.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAWqCwX0aVUu7GmQkU6I1cTlZKTp9j5W7k</string>
+	<key>GCM_SENDER_ID</key>
+	<string>760414248025</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.aguardians</string>
+	<key>PROJECT_ID</key>
+	<string>aguardians-a577c</string>
+	<key>STORAGE_BUCKET</key>
+	<string>aguardians-a577c.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:760414248025:ios:c5700d43362ca5e195e548</string>
+</dict>
+</plist>
