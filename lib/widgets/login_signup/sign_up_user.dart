@@ -1,5 +1,6 @@
 import 'package:aguardians/logic/regex/input_validator_regex.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'input_forms.dart';
 
@@ -13,7 +14,7 @@ class SignupUser extends StatefulWidget {
 class _SignupUserState extends State<SignupUser> {
   DateTime? selectedDate;
 
-  Future<void> _selectDate(BuildContext context) async {
+  Future<void> _selectDateOfBirth(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context, initialDate: DateTime.now(), firstDate: DateTime(1900), lastDate: DateTime.now());
     if (picked != null && picked != selectedDate) {
@@ -26,7 +27,7 @@ class _SignupUserState extends State<SignupUser> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         const EmailInputForm(),
         CustomInputForm(labelText: 'Password', validatorRule: passwordRule, errorMsg: passwordErrorMsg),
@@ -36,11 +37,26 @@ class _SignupUserState extends State<SignupUser> {
           width: 100.0,
           child: CustomDropdown(title: 'Gender', options: <String>['Male', 'Female', 'Other']),
         ),
-        ElevatedButton(
-            onPressed: () {
-              _selectDate(context);
-            },
-            child: const Text('Date of Birth')),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            OutlinedButton(
+              onPressed: () {
+                _selectDateOfBirth(context);
+              },
+              child: const Text('Date of Birth'),
+            ),
+            const SizedBox(width: 20.0),
+            if (selectedDate != null) Text(DateFormat('yyyy-MM-dd').format(selectedDate!)),
+          ],
+        ),
+        const CustomInputForm(labelText: 'Phone Number'),
+        const SizedBox(height: 20.0),
+        OutlinedButton(onPressed: () {}, child: const Text('Add a Profile Picture')),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20.0),
+          child: ElevatedButton(onPressed: () {}, child: const Text('Register')),
+        ),
       ],
     );
   }
@@ -59,7 +75,7 @@ class CustomDropdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: DropdownButton(
           hint: Text(title),
           // isExpanded: true,

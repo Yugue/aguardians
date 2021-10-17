@@ -23,6 +23,8 @@ class CustomInputForm extends StatelessWidget {
         return const Icon(Icons.lock);
       case 'Name':
         return const Icon(Icons.badge);
+      case 'Phone Number':
+        return const Icon(Icons.call);
       default:
         return const Icon(Icons.email);
     }
@@ -31,6 +33,7 @@ class CustomInputForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      keyboardType: labelText == 'Phone Number' ? TextInputType.number : TextInputType.text,
       decoration: InputDecoration(
         icon: returnIcon(labelText),
         labelText: labelText,

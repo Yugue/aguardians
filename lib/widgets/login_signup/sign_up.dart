@@ -30,31 +30,34 @@ class _SignupPageState extends State<SignupPage> {
             children: [
               const TitleWithMessage(),
               const SizedBox(height: 20.0),
-              ToggleButtons(
-                children: const <Widget>[
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Text("Sign up as an user"),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Text("Sign up as a volunteer"),
-                  ),
-                ],
-                onPressed: (int index) {
-                  setState(() {
-                    for (int buttonIndex = 0; buttonIndex < isSelected.length; buttonIndex++) {
-                      if (buttonIndex == index) {
-                        isSelected[buttonIndex] = true;
-                      } else {
-                        isSelected[buttonIndex] = false;
+              SizedBox(
+                height: 35.0,
+                child: ToggleButtons(
+                  children: const <Widget>[
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Text("Sign up as an user"),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Text("Sign up as a volunteer"),
+                    ),
+                  ],
+                  onPressed: (int index) {
+                    setState(() {
+                      for (int buttonIndex = 0; buttonIndex < isSelected.length; buttonIndex++) {
+                        if (buttonIndex == index) {
+                          isSelected[buttonIndex] = true;
+                        } else {
+                          isSelected[buttonIndex] = false;
+                        }
                       }
-                    }
-                  });
-                },
-                isSelected: isSelected,
+                    });
+                  },
+                  isSelected: isSelected,
+                ),
               ),
-              const SizedBox(height: 20.0),
+              const SizedBox(height: 10.0),
               if (isSelected[0]) const SignupUser(),
             ],
           ),

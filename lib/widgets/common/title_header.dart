@@ -10,7 +10,7 @@ class TitleWithMessage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Padding(
-          padding: const EdgeInsets.all(30.0),
+          padding: const EdgeInsets.all(20.0),
           child: Text("Aguardians", style: Theme.of(context).textTheme.headline3),
         ),
         Text(
