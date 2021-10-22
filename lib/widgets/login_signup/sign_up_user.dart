@@ -1,7 +1,9 @@
 import 'package:aguardians/logic/regex/input_validator_regex.dart';
+import 'package:aguardians/widgets/models/current_user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/src/provider.dart';
 
 import 'input_forms.dart';
 
@@ -41,6 +43,7 @@ class _SignupUserState extends State<SignupUser> {
 
   @override
   Widget build(BuildContext context) {
+    print('Current user: ${context.watch<CurrentTrackModel>().currentUser}');
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[

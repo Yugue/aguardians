@@ -1,12 +1,21 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'widgets/common/title_header.dart';
 import 'widgets/login_signup/Log_in.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+import 'widgets/models/current_user_model.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(App());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => CurrentTrackModel(),
+      child: App(),
+    ),
+  );
 }
 
 class App extends StatefulWidget {
@@ -48,6 +57,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      // when there is no user signed in, user will return null
+      context.read<CurrentTrackModel>().setUser(user);
+    });
     return MaterialApp(
       title: 'Aguardians',
       home: Scaffold(
@@ -111,6 +124,13 @@ class MyApp extends StatelessWidget {
                   // Update the state of the app
                   // ...
                   // Then close the drawer
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text('Sign Out'),
+                onTap: () async {
+                  await FirebaseAuth.instance.signOut();
                   Navigator.pop(context);
                 },
               ),
