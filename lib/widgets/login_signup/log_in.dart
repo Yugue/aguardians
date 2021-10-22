@@ -18,6 +18,15 @@ class LoginSection extends StatefulWidget {
 class _LoginSectionState extends State<LoginSection> {
   late String? _userEmail;
   late String? _userPassword;
+  late String? _loginErrorMsg;
+
+  @override
+  void initState() {
+    _userEmail = '';
+    _userPassword = '';
+    _loginErrorMsg = null;
+    super.initState();
+  }
 
   void userEmailSetter(String? email) {
     setState(() {
@@ -28,6 +37,12 @@ class _LoginSectionState extends State<LoginSection> {
   void userPasswordSetter(String? password) {
     setState(() {
       _userPassword = password;
+    });
+  }
+
+  void loginErrorMsgSetter(String? msg) {
+    setState(() {
+      _loginErrorMsg = msg;
     });
   }
 
@@ -80,16 +95,23 @@ class _LoginSectionState extends State<LoginSection> {
               child: const Text('Forgot your password?'),
             ),
           ),
+          if (_loginErrorMsg != null)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+              child: Text(_loginErrorMsg!, style: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.red)),
+            ),
           ElevatedButton(
             onPressed: () async {
+              loginErrorMsgSetter(null);
               try {
-                UserCredential userCredential = await FirebaseAuth.instance
-                    .signInWithEmailAndPassword(email: _userEmail!, password: _userPassword!);
+                await FirebaseAuth.instance.signInWithEmailAndPassword(email: _userEmail!, password: _userPassword!);
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'user-not-found') {
-                  print('No user found for that email.');
+                  loginErrorMsgSetter('No user found for that email.');
                 } else if (e.code == 'wrong-password') {
-                  print('Wrong password provided for that user.');
+                  loginErrorMsgSetter('Wrong password provided for that user.');
+                } else {
+                  loginErrorMsgSetter(e.message);
                 }
               }
             },

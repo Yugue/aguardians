@@ -7,6 +7,7 @@ import 'widgets/login_signup/Log_in.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'widgets/models/current_user_model.dart';
+import 'widgets/postings.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -137,9 +138,9 @@ class MyApp extends StatelessWidget {
             ],
           ),
         ),
-        body: const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
-          child: LoginSection(),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
+          child: context.watch<CurrentTrackModel>().currentUser == null ? LoginSection() : PostingSection(),
         ),
       ),
     );
