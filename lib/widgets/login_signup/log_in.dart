@@ -1,4 +1,5 @@
 import 'package:aguardians/logic/regex/input_validator_regex.dart';
+import 'package:aguardians/widgets/common/message_notifier.dart';
 import 'package:aguardians/widgets/common/title_header.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
@@ -16,15 +17,15 @@ class LoginSection extends StatefulWidget {
 }
 
 class _LoginSectionState extends State<LoginSection> {
-  late String? _userEmail;
-  late String? _userPassword;
-  late String? _loginErrorMsg;
+  String? _userEmail;
+  String? _userPassword;
+  String? _loginMsg;
 
   @override
   void initState() {
     _userEmail = '';
     _userPassword = '';
-    _loginErrorMsg = null;
+    _loginMsg = null;
     super.initState();
   }
 
@@ -40,9 +41,9 @@ class _LoginSectionState extends State<LoginSection> {
     });
   }
 
-  void loginErrorMsgSetter(String? msg) {
+  void loginMsgSetter(String? msg) {
     setState(() {
-      _loginErrorMsg = msg;
+      _loginMsg = msg;
     });
   }
 
@@ -87,37 +88,39 @@ class _LoginSectionState extends State<LoginSection> {
             stateModifier: userPasswordSetter,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5.0),
+            padding: const EdgeInsets.fromLTRB(0, 5.0, 0, 0),
             child: TextButton(
-              onPressed: () {
-                // TODO: add forgot your password based on the email address provided
+              onPressed: () async {
+                loginMsgSetter(null);
+                try {
+                  await FirebaseAuth.instance.sendPasswordResetEmail(email: _userEmail!);
+                  loginMsgSetter('A password reset email has been sent. Please check your spam!');
+                } on FirebaseAuthException catch (e) {
+                  loginMsgSetter(e.message);
+                }
               },
               child: const Text('Forgot your password?'),
             ),
           ),
-          if (_loginErrorMsg != null)
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-              child: Text(_loginErrorMsg!, style: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.red)),
-            ),
+          MessageNotifier(msg: _loginMsg),
           ElevatedButton(
             onPressed: () async {
-              loginErrorMsgSetter(null);
+              loginMsgSetter(null);
               try {
                 await FirebaseAuth.instance.signInWithEmailAndPassword(email: _userEmail!, password: _userPassword!);
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'user-not-found') {
-                  loginErrorMsgSetter('No user found for that email.');
+                  loginMsgSetter('No user found for that email.');
                 } else if (e.code == 'wrong-password') {
-                  loginErrorMsgSetter('Wrong password provided for that user.');
+                  loginMsgSetter('Wrong password provided for that user.');
                 } else {
-                  loginErrorMsgSetter(e.message);
+                  loginMsgSetter(e.message);
                 }
               }
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text('Sign in', style: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.white)),
+              child: Text('Log in', style: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.white)),
             ),
           ),
         ],

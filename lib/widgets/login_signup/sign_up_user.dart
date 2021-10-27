@@ -1,4 +1,5 @@
 import 'package:aguardians/logic/regex/input_validator_regex.dart';
+import 'package:aguardians/widgets/common/message_notifier.dart';
 import 'package:aguardians/widgets/models/current_user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -16,18 +17,25 @@ class SignupUser extends StatefulWidget {
 
 class _SignupUserState extends State<SignupUser> {
   DateTime? selectedDate;
-  late String? _userEmail;
-  late String? _userPassword;
+  String _userEmail = '';
+  String _userPassword = '';
+  String? _signupMsg;
 
   void userEmailSetter(String? email) {
     setState(() {
-      _userEmail = email;
+      _userEmail = email ?? '';
     });
   }
 
   void userPasswordSetter(String? password) {
     setState(() {
-      _userPassword = password;
+      _userPassword = password ?? '';
+    });
+  }
+
+  void signupMsgSetter(String? msg) {
+    setState(() {
+      _signupMsg = msg;
     });
   }
 
@@ -43,7 +51,6 @@ class _SignupUserState extends State<SignupUser> {
 
   @override
   Widget build(BuildContext context) {
-    print('Current user: ${context.watch<CurrentTrackModel>().currentUser}');
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
@@ -80,23 +87,23 @@ class _SignupUserState extends State<SignupUser> {
         const CustomInputForm(labelText: 'Phone Number'),
         const SizedBox(height: 20.0),
         OutlinedButton(onPressed: () {}, child: const Text('Add a Profile Picture')),
+        MessageNotifier(msg: _signupMsg),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20.0),
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 20.0),
           child: ElevatedButton(
             onPressed: () async {
+              signupMsgSetter(null);
               try {
-                UserCredential userCredential = await FirebaseAuth.instance
-                    .createUserWithEmailAndPassword(email: _userEmail!, password: _userPassword!);
-                print('account registered successfully');
-                print(userCredential);
+                await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _userEmail, password: _userPassword);
+                signupMsgSetter('account registered successfully');
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'weak-password') {
-                  print('The password provided is too weak.');
+                  signupMsgSetter('The password provided is too weak.');
                 } else if (e.code == 'email-already-in-use') {
-                  print('The account already exists for that email.');
+                  signupMsgSetter('The account already exists for that email.');
+                } else {
+                  signupMsgSetter(e.message);
                 }
-              } catch (e) {
-                print(e);
               }
             },
             child: const Text('Register'),
